@@ -1,3 +1,3 @@
 Taskbar GTD
 ====
-GTD tool use Windows taskbar show progress.
+a GTD tool to show progress in Windows taskbar
