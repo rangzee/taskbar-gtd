@@ -57,8 +57,8 @@ namespace TaskbarGTD
             {
                 tmMain.Stop();
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
-                MessageBox.Show(this, "TIME IS UP!");
-                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+                //MessageBox.Show(this, "TIME IS UP!");
+                //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
                 pbMain.Value = 0;
             }
         }
@@ -67,6 +67,7 @@ namespace TaskbarGTD
         {
             current = 0;
             max = (int)(nudMain.Value * 60);
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
             tmMain.Start();
         }
     }
