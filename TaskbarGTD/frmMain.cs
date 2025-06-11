@@ -23,7 +23,10 @@ namespace TaskbarGTD
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //tmMain.Start();
+            this.Left = 0;
+            this.Top = Screen.FromControl(this).WorkingArea.Height - this.Height;
+
+            this.nudMain.Select(0, this.nudMain.Text.Length);
 
             // Initialize progress bar
             if (TaskbarManager.IsPlatformSupported)
@@ -46,19 +49,31 @@ namespace TaskbarGTD
         {
             if (TaskbarManager.IsPlatformSupported)
             {
-                //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
-                TaskbarManager.Instance.SetProgressValue(++current, max, this.Handle);
+                current++;
 
                 pbMain.Maximum = max;
                 pbMain.Value = current;
+
+                if (cbxShow.Checked)
+                {
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
+                    TaskbarManager.Instance.SetProgressValue(current, max, this.Handle);
+                }
+                else
+                {
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+                }
             }
 
             if (current >= max)
             {
                 tmMain.Stop();
+
+                TaskbarManager.Instance.SetProgressValue(current, max, this.Handle);
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
                 //MessageBox.Show(this, "TIME IS UP!");
                 //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+
                 pbMain.Value = 0;
             }
         }
@@ -67,8 +82,12 @@ namespace TaskbarGTD
         {
             current = 0;
             max = (int)(nudMain.Value * 60);
-            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
+
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+
             tmMain.Start();
+
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
